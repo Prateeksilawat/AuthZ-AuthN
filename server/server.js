@@ -7,27 +7,19 @@ import authRouter from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
 
 const app = express();
-const port  = process.env.PORT || 4000;
-connectDB();
+const port  = process.env.PORT || 4000
+connectDB()
 
-// Update allowedOrigins for both local and Vercel
-const allowedOrigins = [
-  'http://localhost:5173', // Local development
-  'https://auth-z-auth-n.vercel.app' // Vercel deployment URL
-];
+const allowedOrigins = ['http://localhost:5173']
+
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({origin:allowedOrigins ,credentials:true}))
 
-// CORS setup
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true,
-}));
+//api endpoints
+app.get('/',(req,res) => res.send("Api Working fine"));
+app.use('/api/auth',authRouter)
+app.use('/api/user',userRouter)
 
-// API endpoints
-app.get('/', (req, res) => res.send("API Working fine"));
-app.use('/api/auth', authRouter);
-app.use('/api/user', userRouter);
-
-app.listen(port, () => console.log(`Server started on Port:${port}`));
+app.listen(port,()=> console.log(`Server start on Port:${port}`)); 
