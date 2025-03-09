@@ -11,19 +11,10 @@
     }
     try {
         
-       const tokenDecode =  jwt.verify(token,process.env.JWT_SECRET)
-
-       if(tokenDecode.id){
-        req.body.userId = tokenDecode.id
-       }
-       else{
-        return res.json({
-            success:false,
-            message:'Not Authorized. Login Again'
-        })
-       }
-
-       next();
+     const tokenDecode = jwt.verify(token, process.env.JWT_SECRET);
+        req.body.userId = tokenDecode.id;
+        next();
+       
 
     } catch (error) {
         return res.json({
